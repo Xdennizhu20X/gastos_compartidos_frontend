@@ -6,19 +6,42 @@ import './App.css'
 import Home from "./components/principal/principal";
 import AnalyticsComponent from "./components/analitycs/analitycs";
 import Transacciones from "./components/transacciones/Transacciones";
+import Login from "./components/login/login";
+import Register from "./components/register/register";
+import Dashboard from "./components/dashboard/dashboar";
+import ProtectedRoute from './components/ProtectedRoutes'; 
 
 function App() {
 
   return (
-    <div className="sm:dark dark text-foreground sm:h-screen h-full sm:overflow-hidden overflow-visible  bg-[#08042c]">
-      <NavbarComponent/>
+
+  <Router>
+    <div className="">
+      <NavbarComponent />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/other" element={<AnalyticsComponent />} />
-        <Route path="/transaccion" element={<Transacciones />} />
-        {/* Add more Route components as needed */}
+      <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* <Route path="/principal" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} /> */}
+
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
+  </Router>
+
+
+
+
+    
   );
 }
 

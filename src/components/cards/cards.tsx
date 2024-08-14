@@ -5,7 +5,7 @@ import {Card, CardBody, CardFooter, Image} from "@nextui-org/react";
 export default function CardsComponent() {
   const list = [
     {
-      title: "Orange",
+      title: "Salida",
       img: "/images/fruit-1.jpeg",
       price: "$5.50",
     },
@@ -39,9 +39,9 @@ export default function CardsComponent() {
   ];
 
   return (
-    <div  className="gap-10 mb-20 flex flex-wrap justify-center">
+    <div  className=" gap-10  flex flex-wrap justify-center">
       {list.map((item, index) => (
-        <Card className="w-72 h-52 bg-[#181a32] border-2  border-purple-300 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_5px_#08f,0_0_5px_#08f,0_0_1px_#08f]" shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
+        <Card className=" animate-swing-drop-in  w-72 h-52 bg-[#181a32] border-2  border-purple-300 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_5px_#08f,0_0_5px_#08f,0_0_1px_#08f]" style={{ animationDelay: `${index * 100}ms` }} shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
           <CardBody className="overflow-visible p-0">
             <Image
               shadow="sm"
