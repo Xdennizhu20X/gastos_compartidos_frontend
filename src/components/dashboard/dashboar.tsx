@@ -8,13 +8,13 @@ import { Link } from 'react-router-dom';
 export default function Dashboard() {
   return (
 
-    <div className="w-full  rounded-md    overflow-hidden">
-      <Vortex
+    <div className="w-full">
+            <Vortex
         backgroundColor="black"
         rangeY={800}
         particleCount={500}
-        baseHue={120}
-        className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-screen "
+        baseHue={920}
+        className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-screen overflow-y-hidden overflow-x-hidden "
       >
         <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
           The hell is this?
@@ -30,7 +30,10 @@ export default function Dashboard() {
           <button className="px-4 py-2  text-white ">Watch trailer</button>
         </div>
       </Vortex>
+
     </div>
+
+
 
 
 

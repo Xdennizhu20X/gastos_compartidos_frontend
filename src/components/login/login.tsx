@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
+import {  Button } from "@nextui-org/react";
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -17,7 +19,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <form className='pt-20' onSubmit={handleSubmit}>
+    <form className='pt-20 bg-black' onSubmit={handleSubmit}>
       <input
         type="email"
         value={email}
@@ -32,7 +34,7 @@ const LoginPage: React.FC = () => {
         placeholder="Contraseña"
         required
       />
-      <button type="submit">Iniciar sesión</button>
+      <Button  type="submit">Iniciar sesión</Button>
     </form>
   );
 };

@@ -10,32 +10,37 @@ import Login from "./components/login/login";
 import Register from "./components/register/register";
 import Dashboard from "./components/dashboard/dashboar";
 import ProtectedRoute from './components/ProtectedRoutes'; 
+import Nosotros from "./components/nosotros/nosotros";
+import { NextUIProvider } from "@nextui-org/react";
 
 function App() {
 
   return (
 
   <Router>
-    <div className="">
-      <NavbarComponent />
-      <Routes>
-      <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
+    <NextUIProvider>
+      <div className="overflo">
+        <NavbarComponent />
+        <Routes>
+        <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/nosotros" element={<Nosotros />} />
 
-        {/* <Route path="/principal" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} /> */}
+          {/* <Route path="/principal" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} /> */}
 
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </div>
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+    </NextUIProvider>
   </Router>
 
 
