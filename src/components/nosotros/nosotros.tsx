@@ -19,7 +19,7 @@ export default function Nosotros() {
       </div>
       
       <div className="pt-20 bg-black flex flex-col items-center relative z-20 ">
-      
+      <BackgroundGradient className="flex flex-col md:flex-row sm:p-6 bg-black rounded-[16px] p-4">
         <div className="flex flex-row gap-10"> 
         <img
           className="rounded-t-lg w-[400px] h-auto mb-4 shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl"
@@ -32,8 +32,8 @@ export default function Nosotros() {
           generación de reportes detallados, te proporcionamos todas las
           herramientas necesarias para mantener tus finanzas bajo control.
         </p>
-        
         </div>
+        </BackgroundGradient>
         <h2 className="pt-20 text-3xl font-bold text-white text-center">
           Desarrolladores de la aplicación
         </h2>
