@@ -1,5 +1,4 @@
 import { BackgroundGradient } from "../ui/background-gradient";
-
 import { Vortex } from "../ui/vortex";
 
 export default function Nosotros() {
@@ -18,10 +17,12 @@ export default function Nosotros() {
           </h2>
         </Vortex>
       </div>
+      
       <div className="pt-20 bg-black flex flex-col items-center relative z-20 ">
+      <BackgroundGradient className="flex flex-col md:flex-row sm:p-6 bg-black rounded-[16px] p-4">
         <div className="flex flex-row gap-10"> 
         <img
-          className="rounded-t-lg w-[400px] h-auto mb-4"
+          className="rounded-t-lg w-[400px] h-auto mb-4 shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl"
           src="https://tecdn.b-cdn.net/img/new/standard/nature/186.jpg"
           alt="Imagen representativa"
         />
@@ -31,8 +32,8 @@ export default function Nosotros() {
           generación de reportes detallados, te proporcionamos todas las
           herramientas necesarias para mantener tus finanzas bajo control.
         </p>
-        
         </div>
+        </BackgroundGradient>
         <h2 className="pt-20 text-3xl font-bold text-white text-center">
           Desarrolladores de la aplicación
         </h2>
@@ -40,7 +41,7 @@ export default function Nosotros() {
       <div className="bg-black flex flex-col items-center px-4">
         
         <div className=" pt-20 sm:grid-cols-1 justify-center pb-10 ">
-          <BackgroundGradient className="rounded-[22px] flex flex-col items-center bg-white rounded-3xl md:flex-row md:max-w-4xl p-8 sm:p-10 bg-white dark:bg-zinc-900">
+          <BackgroundGradient className="rounded-[22px] flex flex-col items-center bg-white rounded-3xl md:flex-row md:max-w-4xl p-8 sm:p-10 bg-white dark:bg-zinc-900 shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl">
             <img
               src="https://media-bog2-2.cdn.whatsapp.net/v/t61.24694-24/442323467_509906551582521_4612146144675765006_n.jpg?ccb=11-4&oh=01_Q5AaIJy1QcMHojpNuzYfM4wXG0jjer2mEccGEuzSqYM7lAmf&oe=66CBB58C&_nc_sid=5e03e0&_nc_cat=106"
               alt="Siomara"
@@ -50,16 +51,17 @@ export default function Nosotros() {
               <h5 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Desireé Siomara Coronel González
               </h5>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                Here are the biggest enterprise technology acquisitions of 2021
-                so far, in reverse chronological order.
-              </p>
+              <p className="text-center mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Soy estudiante de Ingeniería en Tecnología de la Información y Comunicación en la Universidad Internacional Sede Loja, actualmente en el cuarto ciclo. Me interesa el desarrollo de software y disfruto resolviendo problemas y explorando cómo la tecnología puede mejorar la vida diaria.
+                <br /><br />
+                He trabajado en proyectos que han reforzado mis habilidades en programación con herramientas como React y Node.js. Me encanta aprender nuevas tecnologías para crear soluciones innovadoras.
+            </p>
             </div>
           </BackgroundGradient>
         </div>
         <div className="gap-5">
-          <BackgroundGradient className="rounded-[22px] flex flex-col items-center bg-white md:flex-row md:max-w-4xl p-8 sm:p-10 bg-white dark:bg-zinc-900">
-            <img
+          <BackgroundGradient className="rounded-[22px] flex flex-col items-center bg-white rounded-3xl md:flex-row md:max-w-4xl p-8 sm:p-10 bg-white dark:bg-zinc-900 shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl">
+          <img
               src="https://media-bog2-2.cdn.whatsapp.net/v/t61.24694-24/427588409_964877868011248_7711964683745159371_n.jpg?ccb=11-4&oh=01_Q5AaIBeboADQMWcEAvDH0QfZDkbcATm1RndfWZ4OaAFqKf06&oe=66CB325B&_nc_sid=5e03e0&_nc_cat=102"
               alt="nicolas"
               className="w-44 rounded-full shadow-lg mb-6 md:mb-0 md:mr-6"
@@ -145,7 +147,7 @@ export default function Nosotros() {
                         </li>
                     </ul>
                 </div>
-                <div className="bg-gray-100 p-6 rounded-lg">
+                <div className="p-6 rounded-lg">
                     <form className="mt-8 space-y-4">
                         <input type='text' placeholder='Nombre'
                             className="w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-[#a91079]" />
