@@ -21,10 +21,6 @@ const UserTransactions: React.FC = () => {
     }
   };
 
-  if (!transacciones) {
-    return <div>Cargando transacciones...</div>;
-  }
-
   if (transacciones.length === 0) {
     return <div>No se encontraron transacciones.</div>;
   }
@@ -35,12 +31,10 @@ const UserTransactions: React.FC = () => {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {transacciones.map((transaccion, index) => (
           <Card
-            key={transaccion._id}
+            key={transaccion._id} // Asegúrate de que 'id' es el campo único
             className="animate-swing-drop-in w-72 h-auto bg-[#181a32] border-2 border-purple-300 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_5px_#08f,0_0_5px_#08f,0_0_1px_#08f]"
             style={{ animationDelay: `${index * 100}ms` }}
             shadow="sm"
-            isPressable
-            onPress={() => console.log(`Transacción ${transaccion._id} presionada`)}
           >
             <CardBody className="overflow-visible p-0">
               <Image
@@ -54,14 +48,14 @@ const UserTransactions: React.FC = () => {
             </CardBody>
             <CardFooter className="text-small justify-between text-white flex flex-col">
               <div>
-                <b>ID Transacción: {transaccion._id}</b>
+                <b>ID Transacción: {transaccion.id}</b> {/* Cambiado de '_id' a 'id' */}
                 <p>Monto: {transaccion.monto}</p>
                 <p>Fecha: {transaccion.fecha}</p>
                 <p>Estado: {transaccion.estado}</p>
               </div>
               <Button
                 className="mt-2 bg-purple-500"
-                onClick={() => handlePagar(transaccion._id)}
+                onClick={() => handlePagar(transaccion.id)} 
                 disabled={transaccion.estado === 'pagada'} // Deshabilitar si ya está pagada
               >
                 {transaccion.estado === 'pagada' ? 'Pagada' : 'Pagar'}

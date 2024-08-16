@@ -8,10 +8,10 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = createRoot(rootElement);
   root.render(
-    <StrictMode>
+
       <AppProviders>
         <App />
       </AppProviders>
-    </StrictMode>
+
   );
 }

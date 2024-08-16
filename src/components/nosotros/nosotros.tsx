@@ -5,7 +5,7 @@ import { Vortex } from "../ui/vortex";
 export default function Nosotros() {
   return (
     <div>
-      <div className="h-[300px] flex items-center justify-center relative z-10">
+      <div className="h-[300px] w-full flex items-center justify-center relative z-10">
         <Vortex
           backgroundColor="black"
           rangeY={800}

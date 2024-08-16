@@ -32,7 +32,7 @@ export default function Dashboard() {
         </div>
       </Vortex>
 
-      <div className="pt-35 bg-black flex flex-col items-center px-4">
+      <div className="pt-35 bg-black flex w-screen flex-col items-center px-4">
         <h2 className="text-3xl font-bold text-white mb-8 text-center">
           Funcionamiento de la Aplicación
         </h2>
