@@ -14,6 +14,7 @@ interface Credentials {
 interface LoginResponse {
   token: string;
   message: string;
+  userId: string;
 }
 
 // Función para registrar un nuevo usuario
@@ -28,15 +29,17 @@ export const register = async (userData: UserData): Promise<string> => {
 };
 
 // Función para iniciar sesión
-// api/login_register.ts
 export const login = async (credentials: Credentials): Promise<LoginResponse> => {
   try {
-    const response = await api.post('/aut/login', credentials); // Usa Axios para hacer la solicitud
-    return response.data; // Devuelve la respuesta del servidor
+    const response = await api.post('/aut/login', credentials);
+    const { token, userId, message } = response.data; // Extrae el token, ID del usuario y mensaje
+    console.log('Respuesta del servidor:', { token, userId, message }); // Log de la respuesta
+    return { token, userId, message }; // Devuelve el token, ID del usuario y mensaje
   } catch (error) {
     console.error('Error en la función login:', error);
-    throw error; // Re-lanzar el error para que pueda ser capturado en el componente
+    throw error;
   }
 };
+
 
 
