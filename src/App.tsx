@@ -12,6 +12,7 @@ import Dashboard from "./components/dashboard/dashboar";
 import ProtectedRoute from './components/ProtectedRoutes'; 
 import Nosotros from "./components/nosotros/nosotros";
 import { NextUIProvider } from "@nextui-org/react";
+import UserDetailsPage from "./components/usuario/UserDetails";
 
 function App() {
 
@@ -34,8 +35,8 @@ function App() {
           />
           <Route path="/nosotros" element={<Nosotros />} />
 
-          {/* <Route path="/principal" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} /> */}
+          <Route path="/user" element={<ProtectedRoute><UserDetailsPage /></ProtectedRoute>} />
+          <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} />
 
           <Route path="/register" element={<Register />} />
         </Routes>

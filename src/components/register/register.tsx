@@ -1,6 +1,14 @@
+"use client";
 import React, { useState } from 'react';
-import { Input, Button } from '@nextui-org/react';
+
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { cn } from "../../lib/util";
 import { register } from '../../api/login_register';
+import PasswordInput from "./inputpassword";
+import { Boxes } from "../ui/background-boxes";
+import { EyeFilledIcon } from "./EyeFilledIcon";
+import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 
 interface FormData {
   nombre: string;
@@ -48,55 +56,109 @@ const Register: React.FC = () => {
     }
   };
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   return (
-    <section>
-      <div className="card">
-        <div className="card2">
-          <form onSubmit={handleSubmit} className="form">
-            <p id="heading">Registrar</p>
-            <div className="field">
+    <div className="min-h-screen relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 w-full h-full bg-transparent/10 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes />
+      <div className="max-w-md sm:w-full w-[90%] mx-auto absolute rounded-none md:rounded-2xl mt-10 p-4 md:p-8 shadow-input bg-white dark:bg-black">
+        <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+          Welcome to Aceternity
+        </h2>
+        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+          Login to aceternity if you can because we don&apos;t have a login flow
+          yet
+        </p>
+
+        <form className="my-8" onSubmit={handleSubmit}>
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+            <LabelInputContainer>
+              <Label htmlFor="firstname">First name</Label>
               <Input
-                value={formData.nombre}
                 name="nombre"
+                value={formData.nombre}
                 onChange={handleChange}
-                label="Nombre"
-                variant="bordered"
-                className="max-w-xs focus:border-none"
-                required
+                id="firstname"
+                placeholder="Escriba su Nombre aquí"
+                type="text"
               />
-            </div>
-            <div className="field">
+            </LabelInputContainer>
+          </div>
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="email">Email Address</Label>
+            <Input
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              id="email"
+              placeholder="projectmayhem@fc.com"
+              type="email"
+            />
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative inline-block">
               <Input
-                value={formData.email}
-                name="email"
-                onChange={handleChange}
-                type="email"
-                label="Email"
-                variant="bordered"
-                isInvalid={isEmailInvalid}
-                color={isEmailInvalid ? "error" : "default"}
-                errorMessage="Please enter a valid email"
-                className="max-w-xs"
-                required
-              />
-            </div>
-            <div className="field">
-              <Input
-                value={formData.contrasena}
                 name="contrasena"
+                value={formData.contrasena}
                 onChange={handleChange}
-                type="password"
-                label="Contraseña"
-                variant="bordered"
-                className="max-w-xs"
-                required
+                type={isVisible ? "text" : "password"}
+                id="password"
+                placeholder="••••••••"
               />
+              <button
+                className="absolute inset-y-0 right-0 px-3 py-2"
+                type="button"
+                onClick={toggleVisibility}
+                aria-label="toggle password visibility"
+              >
+                {isVisible ? (
+                  <EyeSlashFilledIcon className="text-2xl text-gray-500" />
+                ) : (
+                  <EyeFilledIcon className="text-2xl text-gray-500" />
+                )}
+              </button>
             </div>
-            <Button className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4  origin-left hover:decoration-2 hover:text-rose-300 relative bg-neutral-800 h-16 w-64 border text-left p-3 text-gray-50 text-base font-bold rounded-lg  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg" type="submit" color="primary">Registrar</Button>
-          </form>
-        </div>
+          </LabelInputContainer>
+
+          <button
+            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+            type="submit"
+          >
+            Sign up &rarr;
+            <BottomGradient />
+          </button>
+
+          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+        </form>
       </div>
-    </section>
+    </div>
+  );
+};
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+    </>
+  );
+};
+
+const LabelInputContainer = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex flex-col space-y-2 w-full", className)}>
+      {children}
+    </div>
   );
 };
 

@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Link } from 'react-router-dom';
-import {  Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await login({ email, contrasena });
-      // Redirigir a otra página si es necesario
+      navigate('/dashboard'); // Redirigir al tablero después del inicio de sesión
     } catch (error) {
       console.error('Error en el inicio de sesión:', error);
+      alert(error.message || 'Error en el inicio de sesión. Inténtalo de nuevo.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -26,6 +32,7 @@ const LoginPage: React.FC = () => {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
         required
+        disabled={loading}
       />
       <input
         type="password"
@@ -33,10 +40,12 @@ const LoginPage: React.FC = () => {
         onChange={(e) => setContrasena(e.target.value)}
         placeholder="Contraseña"
         required
+        disabled={loading}
       />
-      <Button  type="submit">Iniciar sesión</Button>
+      <Button type="submit" disabled={loading}>
+        {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+      </Button>
     </form>
   );
 };
-
 export default LoginPage;
