@@ -28,7 +28,6 @@ export default function Dashboard() {
           >
             Order now
           </Button>
-          <button className="px-4 py-2  text-white ">Mira trailer</button>
         </div>
       </Vortex>
 

@@ -29,33 +29,49 @@ export default function NavbarComponent() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="font-bold text-inherit">DivvyUp</p>
+                {isAuthenticated ? (
+                    <>
+                    <Link className="font-bold text-inherit" color="foreground" to="/dashboard">
+                        DivvyUp
+                    </Link>
+                    </>
+                ) : (
+                    <>
+                    <Link className="font-bold text-inherit" color="foreground" to="/">
+                        DivvyUp
+                    </Link>
+                    </>
+                )}
+
+
                 </NavbarBrand>
             </NavbarContent>
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
-            {isAuthenticated ? (
+                {isAuthenticated ? (
                     <>
+
+
                         <NavbarItem>
-                        <Link color="foreground" to="/xd">
-                            Grupo
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem isActive>
-                        <Link to="#" aria-current="page">
-                            Gastos
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link color="foreground" to="#">
-                            Integrations
-                        </Link>
-                    </NavbarItem>
+                            <Link color="foreground" to="/groups">
+                                Grupo
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem isActive>
+                            <Link to="/dashboard" aria-current="page">
+                                Gastos
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Link color="foreground" to="/trans">
+                                Transacciones
+                            </Link>
+                        </NavbarItem>
                     </>
-                    ) : (
+                ) : (
                     <>
                         <NavbarItem>
-                            <Link color="foreground" to="/xd">
+                            <Link color="foreground" to="/">
                                 Inicio
                             </Link>
                         </NavbarItem>
@@ -65,16 +81,16 @@ export default function NavbarComponent() {
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Link color="foreground" to="#">
+                            <Link color="foreground" to="/nosotros">
                                 Nosotros
                             </Link>
                         </NavbarItem>
                     </>
-                    )}
-                
+                )}
+
             </NavbarContent>
             <NavbarContent justify="end">
-                        {isAuthenticated ? (
+                {isAuthenticated ? (
                     <>
                         <NavbarItem>
                             <Button as={Link} onClick={logout} color="primary" to="#" variant="flat">
@@ -82,7 +98,7 @@ export default function NavbarComponent() {
                             </Button>
                         </NavbarItem>
                     </>
-                    ) : (
+                ) : (
                     <>
                         <NavbarItem className="hidden lg:flex">
                             <Link to="/login">Login</Link>
@@ -93,13 +109,13 @@ export default function NavbarComponent() {
                             </Button>
                         </NavbarItem>
                     </>
-                    )}
+                )}
 
             </NavbarContent>
             <NavbarMenu className="bg-transparent">
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem className={`bg-white/5 p-2 rounded-lg  text-white animate-fade-in-right`}
-                    style={{ animationDelay: `${index * 100}ms` }} key={`${item}-${index}`}>
+                        style={{ animationDelay: `${index * 100}ms` }} key={`${item}-${index}`}>
                         <Link
                             color={
                                 index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"

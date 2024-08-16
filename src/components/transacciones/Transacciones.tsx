@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useTransacciones } from '../../context/TransaccionesContext'; // Ajusta la ruta según tu estructura
-import { Card, CardBody, CardFooter, Image, Button } from '@nextui-org/react';
+import { CardBody, CardContainer, CardItem } from '../ui/3d-card';
+import { Button } from '@nextui-org/react';
 import { pagarTransaccion } from '../../api/transacciones'; // Ajusta la ruta según tu estructura
+import { BackgroundBeams } from '../ui/background-beams';
 
 const UserTransactions: React.FC = () => {
   const { transacciones, getTransacciones } = useTransacciones();
@@ -26,44 +28,49 @@ const UserTransactions: React.FC = () => {
   }
 
   return (
-    <div className='w-full min-h-screen flex flex-col items-center justify-center bg-gray-100 text-black'>
-      <h2 className='text-2xl font-bold mb-6'>Mis Transacciones</h2>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+    <div className="bg-black w-full min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <div className="pt-20 h-auto w-full bg-black flex flex-col items-center justify-center">
+        <h1 className="md:text-5xl text-3xl lg:text-8xl font-bold text-center text-white relative z-20">
+          Mis Transacciones
+        </h1>
+        <div className="w-[40rem] h-20 relative">
+          {/* Gradients */}
+          <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
+          <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
+          <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
+          <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
+
+          {/* Radial Gradient to prevent sharp edges */}
+          <div className="absolute inset-0 w-full h-auto bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-wrap items-center justify-center gap-10">
         {transacciones.map((transaccion, index) => (
-          <Card
-            key={transaccion._id} // Asegúrate de que 'id' es el campo único
-            className="animate-swing-drop-in w-72 h-auto bg-[#181a32] border-2 border-purple-300 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_5px_#08f,0_0_5px_#08f,0_0_1px_#08f]"
-            style={{ animationDelay: `${index * 100}ms` }}
-            shadow="sm"
-          >
-            <CardBody className="overflow-visible p-0">
-              <Image
-                shadow="sm"
-                radius="lg"
-                width="100%"
-                alt="Transacción"
-                className="w-full object-cover h-[150px]"
-                src="" // Reemplaza esto con una imagen real si tienes
-              />
-            </CardBody>
-            <CardFooter className="text-small justify-between text-white flex flex-col">
-              <div>
-                <b>ID Transacción: {transaccion.id}</b> {/* Cambiado de '_id' a 'id' */}
-                <p>Monto: {transaccion.monto}</p>
-                <p>Fecha: {transaccion.fecha}</p>
-                <p>Estado: {transaccion.estado}</p>
-              </div>
+          <CardContainer key={transaccion._id} className="relative">
+            <CardBody className="bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-10 border shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_5px_#08f,0_0_5px_#08f,0_0_1px_#08f]" style={{ animationDelay: `${index * 100}ms` }}>
+              <CardItem translateZ="50" className="text-xl font-bold text-neutral-600 dark:text-white">
+                ID Transacción: {transaccion._id}
+              </CardItem>
+              <CardItem as="p" translateZ="60" className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300">
+                Monto: {transaccion.monto}
+                <br />
+                Fecha: {transaccion.fecha}
+                <br />
+                Estado: {transaccion.estado}
+              </CardItem>
               <Button
-                className="mt-2 bg-purple-500"
-                onClick={() => handlePagar(transaccion.id)} 
-                disabled={transaccion.estado === 'pagada'} // Deshabilitar si ya está pagada
+                className="mt-2 bg-purple-500 text-white"
+                onClick={() => handlePagar(transaccion._id)}
+                disabled={transaccion.estado === 'pagada'}
               >
                 {transaccion.estado === 'pagada' ? 'Pagada' : 'Pagar'}
               </Button>
-            </CardFooter>
-          </Card>
+            </CardBody>
+          </CardContainer>
         ))}
       </div>
+      <BackgroundBeams />
     </div>
   );
 };

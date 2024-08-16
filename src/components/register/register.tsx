@@ -9,6 +9,7 @@ import PasswordInput from "./inputpassword";
 import { Boxes } from "../ui/background-boxes";
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
+import { AuroraBackground } from '../ui/aurora-background';
 
 interface FormData {
   nombre: string;
@@ -61,9 +62,8 @@ const Register: React.FC = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <div className="min-h-screen relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center">
+    <AuroraBackground className="min-h-screen relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center">
       <div className="absolute inset-0 w-full h-full bg-transparent/10 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <Boxes />
       <div className="max-w-md sm:w-full w-[90%] mx-auto absolute rounded-none md:rounded-2xl mt-10 p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to Aceternity
@@ -135,7 +135,7 @@ const Register: React.FC = () => {
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
         </form>
       </div>
-    </div>
+    </AuroraBackground>
   );
 };
 

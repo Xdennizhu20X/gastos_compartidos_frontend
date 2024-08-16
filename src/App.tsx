@@ -14,7 +14,10 @@ import Nosotros from "./components/nosotros/nosotros";
 import { NextUIProvider } from "@nextui-org/react";
 import UserDetailsPage from "./components/usuario/UserDetails";
 
-import GruposList from "./components/grupos/grupos";
+import CrearGrupo from "./components/grupos/grupos";
+import GruposList from "./components/grupos/listgroups";
+import InvitarUsuario from "./components/grupos/invitacion";
+
 
 function App() {
 
@@ -39,6 +42,7 @@ function App() {
 
           <Route path="/user" element={<ProtectedRoute><UserDetailsPage /></ProtectedRoute>} />
           <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} />
+          <Route path="/creategroups" element={<ProtectedRoute><CrearGrupo/></ProtectedRoute>} />
           <Route path="/groups" element={<ProtectedRoute><GruposList/></ProtectedRoute>} />
 
           <Route path="/register" element={<Register />} />

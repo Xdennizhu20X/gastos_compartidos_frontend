@@ -12,10 +12,19 @@ interface Grupo {
 interface GruposContextType {
   grupos: Grupo[];
   getGrupos: () => Promise<void>;
-  createGrupo: (grupo: Omit<Grupo, 'id'>) => Promise<void>; // Excluye el campo 'id' ya que es generado por el backend
+  createGrupo: (grupo: Omit<Grupo, 'id'>) => Promise<void>;
+  sendInvitation: (email: string, grupoId: string) => Promise<void>;
 }
 
 const GruposContext = createContext<GruposContextType | undefined>(undefined);
+
+export const useGrupos = (): GruposContextType => {
+  const context = useContext(GruposContext);
+  if (!context) {
+    throw new Error('useGrupos debe usarse dentro de un GruposProvider');
+  }
+  return context;
+};
 
 export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
@@ -66,6 +75,28 @@ export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
   }, []);
 
+  const sendInvitation = useCallback(async (email: string, grupoId: string) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = decodeToken(token);
+        const usuarioId = decodedToken.id;
+  
+        if (!usuarioId || !grupoId) {
+          console.error('usuarioId o grupoId están indefinidos:', { usuarioId, grupoId });
+          return;
+        }
+  
+        const response = await api.post('/invitacion', { usuarioId, grupoId, email });
+        console.log('Invitación enviada:', response.data);
+      } catch (error) {
+        console.error('Error enviando la invitación:', error);
+      }
+    }
+  }, []);
+  
+  
+
   const decodeToken = (token: string): DecodedToken => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -74,21 +105,13 @@ export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     ).join(''));
   
     const decoded = JSON.parse(jsonPayload);
-    console.log('Decoded Token:', decoded); // Verifica el contenido del token
+    console.log('Decoded Token:', decoded);
     return decoded;
   };
 
   return (
-    <GruposContext.Provider value={{ grupos, getGrupos, createGrupo }}>
+    <GruposContext.Provider value={{ grupos, getGrupos, createGrupo, sendInvitation }}>
       {children}
     </GruposContext.Provider>
   );
-};
-
-export const useGrupos = (): GruposContextType => {
-  const context = useContext(GruposContext);
-  if (!context) {
-    throw new Error('useGrupos debe usarse dentro de un GruposProvider');
-  }
-  return context;
 };
