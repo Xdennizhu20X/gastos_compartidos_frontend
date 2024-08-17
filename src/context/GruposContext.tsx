@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback, useEffect } from 'react';
 import api from '../api/axios'; // Ajusta la ruta según tu estructura
 
 interface Grupo {
@@ -14,6 +14,7 @@ interface GruposContextType {
   getGrupos: () => Promise<void>;
   createGrupo: (grupo: Omit<Grupo, 'id'>) => Promise<void>;
   sendInvitation: (email: string, grupoId: string) => Promise<void>;
+  userId: string | null; // Asegúrate de que userId esté definido
 }
 
 const GruposContext = createContext<GruposContextType | undefined>(undefined);
@@ -28,13 +29,16 @@ export const useGrupos = (): GruposContextType => {
 
 export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const getGrupos = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken = decodeToken(token);
+        const decodedToken: any = decodeToken(token);
         const userId = decodedToken.id;
+
+        setUserId(userId);
 
         const response = await api.post(`/grupos/usuario/${userId}`);
         console.log('Grupos obtenidos:', response.data);
@@ -94,10 +98,12 @@ export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       }
     }
   }, []);
-  
-  
 
-  const decodeToken = (token: string): DecodedToken => {
+  useEffect(() => {
+    getGrupos(); // Carga los grupos cuando se monta el componente
+  }, [getGrupos]);
+
+  const decodeToken = (token: string): any => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c =>
@@ -110,8 +116,11 @@ export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   return (
-    <GruposContext.Provider value={{ grupos, getGrupos, createGrupo, sendInvitation }}>
+    <GruposContext.Provider value={{ grupos, getGrupos, createGrupo, sendInvitation, userId }}>
       {children}
     </GruposContext.Provider>
   );
 };
+
+// Exporta el contexto para su uso en otros archivos
+export { GruposContext };

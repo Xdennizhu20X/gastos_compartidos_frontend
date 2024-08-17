@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "../../lib/util";
-import { Image } from "@nextui-org/react";
+
 
 import React, {
   createContext,

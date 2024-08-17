@@ -62,7 +62,7 @@ export default function Nosotros() {
         <div className="gap-5">
           <BackgroundGradient className="rounded-[22px] flex flex-col items-center bg-white rounded-3xl md:flex-row md:max-w-4xl p-8 sm:p-10 bg-white dark:bg-zinc-900 shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl">
           <img
-              src="https://media-bog2-2.cdn.whatsapp.net/v/t61.24694-24/427588409_964877868011248_7711964683745159371_n.jpg?ccb=11-4&oh=01_Q5AaIBeboADQMWcEAvDH0QfZDkbcATm1RndfWZ4OaAFqKf06&oe=66CB325B&_nc_sid=5e03e0&_nc_cat=102"
+              src=""
               alt="nicolas"
               className="w-44 rounded-full shadow-lg mb-6 md:mb-0 md:mr-6"
             />

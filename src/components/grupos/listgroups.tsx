@@ -31,6 +31,7 @@ const GruposList: React.FC = () => {
   }, [getGrupos]);
 
   return (
+    
     <div>
           <div className="bg-black w-full min-h-screen justify-center items-center flex flex-wrap gap-3">
       <div className="pt-20 h-auto w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">

@@ -4,6 +4,7 @@ import { CardBody, CardContainer, CardItem } from '../ui/3d-card';
 import { Button } from '@nextui-org/react';
 import { pagarTransaccion } from '../../api/transacciones'; // Ajusta la ruta según tu estructura
 import { BackgroundBeams } from '../ui/background-beams';
+import { AuroraBackground } from '../ui/aurora-background';
 
 const UserTransactions: React.FC = () => {
   const { transacciones, getTransacciones } = useTransacciones();
@@ -28,8 +29,8 @@ const UserTransactions: React.FC = () => {
   }
 
   return (
-    <div className="bg-black w-full min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="pt-20 h-auto w-full bg-black flex flex-col items-center justify-center">
+    <AuroraBackground className="bg-black w-full min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <div className="pt-20 h-auto w-full flex flex-col items-center justify-center">
         <h1 className="md:text-5xl text-3xl lg:text-8xl font-bold text-center text-white relative z-20">
           Mis Transacciones
         </h1>
@@ -41,7 +42,7 @@ const UserTransactions: React.FC = () => {
           <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
 
           {/* Radial Gradient to prevent sharp edges */}
-          <div className="absolute inset-0 w-full h-auto bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
+
         </div>
       </div>
 
@@ -70,8 +71,8 @@ const UserTransactions: React.FC = () => {
           </CardContainer>
         ))}
       </div>
-      <BackgroundBeams />
-    </div>
+
+    </AuroraBackground>
   );
 };
 

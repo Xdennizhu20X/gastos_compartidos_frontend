@@ -66,11 +66,10 @@ const Register: React.FC = () => {
       <div className="absolute inset-0 w-full h-full bg-transparent/10 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <div className="max-w-md sm:w-full w-[90%] mx-auto absolute rounded-none md:rounded-2xl mt-10 p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-          Welcome to Aceternity
+          Welcome to Divvyup
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-          Login to aceternity if you can because we don&apos;t have a login flow
-          yet
+          Registrate para que puedas Acceder a nuestro sitio
         </p>
 
         <form className="my-8" onSubmit={handleSubmit}>
