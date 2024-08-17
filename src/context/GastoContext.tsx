@@ -27,6 +27,27 @@ export const useGastos = (): GastosContextType => {
   return context;
 };
 
+const decodeToken = (token: string) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  ).join(''));
+
+  return JSON.parse(jsonPayload);
+};
+
+const getUserIdFromToken = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded = decodeToken(token);
+    console.log('Decoded Token:', decoded);
+    return decoded.id; // Ajusta según el campo correcto del token
+  }
+  return '';
+};
+
+
 export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [gastos, setGastos] = useState<Gasto[]>([]);
 
@@ -44,11 +65,18 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await api.post('/gastos', gasto, {
+        const decodedToken = decodeToken(token);
+        const usuarioCreador = decodedToken.id;
+  
+        const response = await api.post('/gastos', {
+          ...gasto,
+          usuarioCreador, // Asegúrate de que se envíe el ID de usuario
+        }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+  
         console.log('Gasto creado:', response.data);
         setGastos(prevGastos => [...prevGastos, response.data]);
       } catch (error) {
@@ -63,6 +91,7 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       alert('No se encontró el token de autenticación');
     }
   }, []);
+  
 
   return (
     <GastosContext.Provider value={{ gastos, createGasto, getGastos }}>
