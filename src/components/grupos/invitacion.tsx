@@ -6,7 +6,6 @@ import { Button } from '@nextui-org/react';
 
 // Importa el componente LabelInputContainer desde donde está definido
 
-
 interface EnviarInvitacionProps {
   grupoId: string;
 }
@@ -52,7 +51,5 @@ const EnviarInvitacion: React.FC<EnviarInvitacionProps> = ({ grupoId }) => {
     </div>
   );
 };
-
-
 
 export default EnviarInvitacion;

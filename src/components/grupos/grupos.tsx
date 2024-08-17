@@ -80,9 +80,6 @@ const CrearGrupo: React.FC = () => {
   );
 };
 
-
-
-
 const LabelInputContainer = ({
   children,
   className,

@@ -19,6 +19,7 @@ import GruposList from "./components/grupos/listgroups";
 import InvitarUsuario from "./components/grupos/invitacion";
 import MisInvitaciones from "./components/grupos/listInvitaciones";
 import AddGastoForm from "./components/cards/aaddGasto";
+import Metodo_pago from "./components/pago/metodo_pago";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             }
           />
           <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/metodo_pago" element={<Metodo_pago />} />
 
           <Route path="/user" element={<ProtectedRoute><UserDetailsPage /></ProtectedRoute>} />
           <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} />
