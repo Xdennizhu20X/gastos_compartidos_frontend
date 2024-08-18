@@ -3,9 +3,9 @@ import api from '../api/axios'; // Ajusta la ruta según tu estructura
 
 interface Gasto {
   id: string;
-  monto: number;
-  descripcion: string;
-  fecha: string;
+  nombre: string;
+  precio: number;
+  fechaVencimiento: string;
   usuarioId: string;
   grupoId: string;
 }
@@ -24,6 +24,11 @@ interface GastosContextType {
   userId: string | null;
 }
 
+interface DecodedToken {
+  id: string;
+  // Agrega otros campos si los hay en tu token
+}
+
 const GastosContext = createContext<GastosContextType | undefined>(undefined);
 
 export const useGastos = (): GastosContextType => {
@@ -38,15 +43,15 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [gastos, setGastos] = useState<Gasto[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
 
-  const decodeToken = (token: string): any => {
+  const decodeToken = (token: string): DecodedToken => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c =>
       `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`
     ).join(''));
 
-    const decoded = JSON.parse(jsonPayload);
-    console.log('Decoded Token:', decoded); // Verifica aquí el contenido decodificado
+    const decoded: DecodedToken = JSON.parse(jsonPayload);
+    console.log('Decoded Token:', decoded);
     return decoded;
   };
 
@@ -54,7 +59,7 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken: any = decodeToken(token);
+        const decodedToken: DecodedToken = decodeToken(token);
         const userId = decodedToken.id;
         setUserId(userId);
 
@@ -62,7 +67,11 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         console.log('Gastos obtenidos:', response.data);
         setGastos(response.data);
       } catch (error) {
-        console.error('Error fetching gastos:', error);
+        if (error instanceof Error) {
+          console.error('Error fetching gastos:', error.message);
+        } else {
+          console.error('Unknown error:', error);
+        }
       }
     }
   }, []);
@@ -72,7 +81,6 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     console.log('Token:', token);
     console.log('User ID:', userId);
   
-    // Verifica los datos que se van a enviar
     console.log('Datos enviados:', { ...nuevoGasto, usuarioCreador: userId });
   
     if (userId && token) {
@@ -89,7 +97,11 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setGastos((prevGastos) => [...prevGastos, response.data]);
         console.log('Gasto creado:', response.data);
       } catch (error) {
-        console.error('Error creating gasto:', error.response?.data || error.message);
+        if (error instanceof Error) {
+          console.error('Error creating gasto:', error.message);
+        } else {
+          console.error('Unknown error:', error);
+        }
       }
     } else {
       console.error('User ID or token is missing');
@@ -98,7 +110,7 @@ export const GastosProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   useEffect(() => {
     getGastos(); // Carga los gastos cuando se monta el componente
-    console.log('User ID al cargar GastosProvider:', userId); // Verifica aquí el userId
+    console.log('User ID al cargar GastosProvider:', userId);
   }, [getGastos, userId]);
 
   return (

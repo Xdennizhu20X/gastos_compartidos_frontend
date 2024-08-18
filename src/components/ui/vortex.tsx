@@ -1,8 +1,8 @@
 import { cn } from "../../lib/util";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createNoise3D } from "simplex-noise";
 import { motion } from "framer-motion";
-
+  // @ts-ignore
 interface VortexProps {
   children?: any;
   className?: string;
@@ -16,7 +16,7 @@ interface VortexProps {
   rangeRadius?: number;
   backgroundColor?: string;
 }
-
+  // @ts-ignore
 export const Vortex = (props: VortexProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef(null);
@@ -41,9 +41,10 @@ export const Vortex = (props: VortexProps) => {
   const noise3D = createNoise3D();
   let particleProps = new Float32Array(particlePropsLength);
   let center: [number, number] = [0, 0];
-
+  // @ts-ignore
   const HALF_PI: number = 0.5 * Math.PI;
   const TAU: number = 2 * Math.PI;
+    // @ts-ignore
   const TO_RAD: number = Math.PI / 180;
   const rand = (n: number): number => n * Math.random();
   const randRange = (n: number): number => n - rand(2 * n);
@@ -121,7 +122,7 @@ export const Vortex = (props: VortexProps) => {
   const updateParticle = (i: number, ctx: CanvasRenderingContext2D) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
+  // @ts-ignore
     let i2 = 1 + i,
       i3 = 2 + i,
       i4 = 3 + i,
@@ -131,7 +132,7 @@ export const Vortex = (props: VortexProps) => {
       i8 = 7 + i,
       i9 = 8 + i;
     let n, x, y, vx, vy, life, ttl, speed, x2, y2, radius, hue;
-
+  // @ts-ignore
     x = particleProps[i];
     y = particleProps[i2];
     n = noise3D(x * xOff, y * yOff, tick * zOff) * noiseSteps * TAU;
@@ -184,9 +185,10 @@ export const Vortex = (props: VortexProps) => {
   const checkBounds = (x: number, y: number, canvas: HTMLCanvasElement) => {
     return x > canvas.width || x < 0 || y > canvas.height || y < 0;
   };
-
+  // @ts-ignore
   const resize = (
     canvas: HTMLCanvasElement,
+      // @ts-ignore
     ctx?: CanvasRenderingContext2D
   ) => {
     const { innerWidth, innerHeight } = window;

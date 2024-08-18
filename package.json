@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "homepage" : "https://xdennizhu20x.github.io/gastos_compartidos_frontend/build"
   },
   "dependencies": {
     "@midudev/tailwind-animations": "^0.0.7",

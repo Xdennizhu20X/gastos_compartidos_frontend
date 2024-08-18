@@ -1,18 +1,9 @@
 // src/components/GastosList.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useGastos } from '../../context/GastoContext'; // Ajusta la ruta según tu estructura
-import CrearGasto from './aaddGasto';
 
-interface Gasto {
-  id: string;
-  precio: number;
-  nombre: string;
-  fechaVencimiento: string;
-  grupo: {
-    _id: string;
-    nombre: string;
-  };
-}
+
+
 
 const GastosList: React.FC = () => {
   const { gastos, getGastos } = useGastos();

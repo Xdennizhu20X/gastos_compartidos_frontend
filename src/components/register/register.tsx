@@ -5,8 +5,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { cn } from "../../lib/util";
 import { register } from '../../api/login_register';
-import PasswordInput from "./inputpassword";
-import { Boxes } from "../ui/background-boxes";
+
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import { AuroraBackground } from '../ui/aurora-background';

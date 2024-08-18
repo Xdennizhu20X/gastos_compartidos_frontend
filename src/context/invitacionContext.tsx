@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode, useCallback } fr
 import axios from '../api/axios'; // Ajusta la ruta según tu estructura
 
 interface Invitacion {
-  id: string; // Correspondiente al ObjectId generado por MongoDB
+  _id: string; // Correspondiente al ObjectId generado por MongoDB
   usuario: string; // ID del usuario como ObjectId en formato string
   grupo: string; // ID del grupo como ObjectId en formato string
   estado: 'pendiente' | 'aceptada' | 'rechazada'; // Estado de la invitación

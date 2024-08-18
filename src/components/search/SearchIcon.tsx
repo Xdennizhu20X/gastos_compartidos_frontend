@@ -1,5 +1,12 @@
-import React from "react";
-export const SearchIcon = (props) => (
+import React, { SVGProps } from 'react';
+
+// Define the type for the props of the SearchIcon component
+type SearchIconProps = SVGProps<SVGSVGElement> & {
+  className?: string;
+};
+
+// Convert the functional component to TypeScript
+export const SearchIcon: React.FC<SearchIconProps> = (props) => (
   <svg
     aria-hidden="true"
     fill="none"

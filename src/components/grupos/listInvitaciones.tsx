@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 import { useInvitacion } from '../../context/invitacionContext'; // Asegúrate de importar tu hook
 import { AuroraBackground } from '../ui/aurora-background';
+import  { AxiosError } from 'axios';
+
 
 const MisInvitaciones: React.FC = () => {
   const { invitaciones, getInvitaciones } = useInvitacion();
@@ -15,6 +17,7 @@ const MisInvitaciones: React.FC = () => {
         await getInvitaciones();
       } catch (err) {
         setError('Error fetching invitations.');
+        console.log(err)
       } finally {
         setLoading(false);
       }
@@ -32,16 +35,18 @@ const MisInvitaciones: React.FC = () => {
     try {
       const response = await axios.post(`/api/invitacion/${id}/responder`, { estado: 'aceptada' });
       setSuccessMessage(response.data.message);  // Mostrar mensaje de éxito
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
         const errorMessage = error.response?.data?.error || 'Error desconocido';
-        setError(errorMessage);  // Mostrar mensaje de error
+        setError(errorMessage);
+      } else if (error instanceof Error) {
+        setError(error.message);
       } else {
         setError('Error desconocido');
       }
     }
-  };
-  
+    
+  }
 
   if (loading) {
     return <div className="w-full min-h-screen flex justify-center items-center text-lg">Loading...</div>;

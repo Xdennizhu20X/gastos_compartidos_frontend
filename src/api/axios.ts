@@ -18,14 +18,6 @@ api.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
-export const createGasto = async (gastoData) => {
-  try {
-    const response = await api.post('/gastos', gastoData);
-    return response.data;
-  } catch (error) {
-    console.error('Error en la solicitud:', error);
-    throw error;
-  }
-};
+
 
 export default api;

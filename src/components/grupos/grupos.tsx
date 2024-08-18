@@ -19,6 +19,7 @@ const CrearGrupo: React.FC = () => {
       descripcion,
       presupuesto
     };
+      // @ts-ignore
     await createGrupo(grupo);
     setNombre('');
     setDescripcion('');

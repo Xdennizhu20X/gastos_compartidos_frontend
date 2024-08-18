@@ -4,7 +4,7 @@ import NavbarComponent from './components/navbar/navbar';
 import './App.css'
 
 import Home from "./components/principal/principal";
-import AnalyticsComponent from "./components/analitycs/analitycs";
+
 import Transacciones from "./components/transacciones/Transacciones";
 import Login from "./components/login/login";
 import Register from "./components/register/register";
@@ -16,7 +16,7 @@ import UserDetailsPage from "./components/usuario/UserDetails";
 
 import CrearGrupo from "./components/grupos/grupos";
 import GruposList from "./components/grupos/listgroups";
-import InvitarUsuario from "./components/grupos/invitacion";
+
 import MisInvitaciones from "./components/grupos/listInvitaciones";
 import AddGastoForm from "./components/cards/aaddGasto";
 import Metodo_pago from "./components/pago/metodo_pago";

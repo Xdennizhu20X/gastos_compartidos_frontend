@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import api from '../api/axios'; // Ajusta la ruta según tu estructura
 
 interface TransaccionesContextType {
@@ -7,10 +7,14 @@ interface TransaccionesContextType {
 }
 
 interface Transaccion {
-  id: string;
+  _id: string;
   monto: number;
   fecha: string;
   estado: string;
+}
+interface DecodedToken {
+  id: string;
+  // otros campos que pueda tener tu token decodificado
 }
 
 const TransaccionesContext = createContext<TransaccionesContextType | undefined>(undefined);

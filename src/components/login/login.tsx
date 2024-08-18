@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { cn } from "../../lib/util";
 import { Button } from "@nextui-org/react";
 import { useNavigate } from 'react-router-dom';
+
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import { AuroraBackground } from '../ui/aurora-background';
@@ -26,7 +27,6 @@ const LoginPage: React.FC = () => {
       navigate('/dashboard'); // Redirigir al tablero después del inicio de sesión
     } catch (error) {
       console.error('Error en el inicio de sesión:', error);
-      alert(error.message || 'Error en el inicio de sesión. Inténtalo de nuevo.');
     } finally {
       setLoading(false);
     }
