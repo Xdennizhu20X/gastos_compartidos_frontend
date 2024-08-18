@@ -1,5 +1,5 @@
 
-import {BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import NavbarComponent from './components/navbar/navbar';
 import './App.css'
 
@@ -23,44 +23,38 @@ import Metodo_pago from "./components/pago/metodo_pago";
 
 
 function App() {
-
   return (
-
-  <Router>
-    <NextUIProvider>
-      <div className="overflo">
-        <NavbarComponent />
-        <Routes>
-        <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/nosotros" element={<Nosotros />} />
-          <Route path="/metodo_pago" element={<Metodo_pago />} />
-
-          <Route path="/user" element={<ProtectedRoute><UserDetailsPage /></ProtectedRoute>} />
-          <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} />
-          <Route path="/creategroups" element={<ProtectedRoute><CrearGrupo/></ProtectedRoute>} />
-          <Route path="/groups" element={<ProtectedRoute><GruposList/></ProtectedRoute>} />
-          <Route path="/misinv" element={<ProtectedRoute><MisInvitaciones/></ProtectedRoute>} />
-          <Route path="/creargasto" element={<ProtectedRoute><AddGastoForm/></ProtectedRoute>} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </div>
-    </NextUIProvider>
-  </Router>
-
-
-
-
-    
+    <Router basename="/gastos_compartidos_frontend">
+      <NextUIProvider>
+        <div className="overflo">
+          <NavbarComponent />
+          <Routes>
+            <Route path="/" element={<Navigate to="/inicio" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/inicio" element={<Dashboard />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/metodo_pago" element={<Metodo_pago />} />
+            <Route path="/user" element={<ProtectedRoute><UserDetailsPage /></ProtectedRoute>} />
+            <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} />
+            <Route path="/creategroups" element={<ProtectedRoute><CrearGrupo/></ProtectedRoute>} />
+            <Route path="/groups" element={<ProtectedRoute><GruposList/></ProtectedRoute>} />
+            <Route path="/misinv" element={<ProtectedRoute><MisInvitaciones/></ProtectedRoute>} />
+            <Route path="/creargasto" element={<ProtectedRoute><AddGastoForm/></ProtectedRoute>} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
+      </NextUIProvider>
+    </Router>
   );
 }
+
 
 export default App;
