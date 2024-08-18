@@ -1,106 +1,86 @@
 import React, { useState, useEffect } from 'react';
-import { useGastos } from '../../context/GastoContext';
-import { useGrupos } from '../../context/GruposContext';
+import { useGastos } from '../../context/GastoContext'; // Ajusta la ruta según tu estructura
 
 const CrearGasto: React.FC = () => {
-  const { createGasto } = useGastos();
-  const { grupos, getGrupos } = useGrupos();
-
+  const { createGasto, userId } = useGastos();
   const [nombre, setNombre] = useState('');
-  const [precio, setPrecio] = useState(0);
+  const [precio, setPrecio] = useState<number>(0);
+  const [grupo, setGrupoId] = useState('');
   const [fechaVencimiento, setFechaVencimiento] = useState('');
-  const [grupo, setGrupoId] = useState(''); // Estado para el ID del grupo
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    
+    e.preventDefault();
+
+    if (!userId) {
+      console.error('No se ha encontrado el ID del usuario');
+      return;
+    }
+
+    await createGasto({ nombre, precio, grupo, fechaVencimiento });
+
+    // Limpiar el formulario después de la creación
+    setNombre('');
+    setPrecio(0);
+    setGrupoId('');
+    setFechaVencimiento('');
+  };
+
+  // Verifica si userId está disponible
   useEffect(() => {
-    getGrupos();
-  }, [getGrupos]);
-
-  const decodeToken = (token: string) => {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
-      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    ).join(''));
-
-    return JSON.parse(jsonPayload);
-  };
-
-  const getUserIdFromToken = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = decodeToken(token);
-      console.log('Decoded Token:', decoded);
-      return decoded.id; // Ajusta según el campo correcto del token
+    if (!userId) {
+      console.error('User ID no disponible');
     }
-    return '';
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const usuarioCreador = getUserIdFromToken();
-
-    console.log('Datos a enviar:', {
-      nombre,
-      precio,
-      fechaVencimiento,
-      grupo, // Usa el ID del grupo
-      usuarioCreador,
-    });
-
-    if (usuarioCreador) {
-      try {
-        await createGasto({
-          nombre,
-          precio,
-          fechaVencimiento,
-          grupo, // Envía el ID del grupo
-          usuarioCreador,
-        });
-        console.log('Gasto creado con éxito');
-      } catch (error) {
-        console.error('Error creando gasto:', error);
-      }
-    } else {
-      console.error('ID de usuario no encontrado');
-    }
-  };
+  }, [userId]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Nombre del gasto"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-        required
-      />
-      <input
-        type="number"
-        placeholder="Precio"
-        value={precio}
-        onChange={(e) => setPrecio(parseFloat(e.target.value))}
-        required
-      />
-      <input
-        type="date"
-        placeholder="Fecha de Vencimiento"
-        value={fechaVencimiento}
-        onChange={(e) => setFechaVencimiento(e.target.value)}
-        required
-      />
-      <select
-        value={grupo} // Usa el ID del grupo como valor
-        onChange={(e) => setGrupoId(e.target.value)} // Actualiza el estado con el ID
-        required
-      >
-        <option value="">Selecciona un grupo</option>
-        {grupos.map((g) => (
-          <option key={g.id} value={g.id}> {/* Usa el ID del grupo aquí */}
-            {g.nombre}
-          </option>
-        ))}
-      </select>
-      <button type="submit">Crear Gasto</button>
+    <form onSubmit={handleSubmit} className="bg-white p-5 rounded-md shadow-lg">
+      <h2 className="text-xl font-bold mb-4">Crear Gasto</h2>
+      <div className="mb-4">
+        <label htmlFor="nombre" className="block text-gray-700">Nombre del Gasto:</label>
+        <input
+          type="text"
+          id="nombre"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="precio" className="block text-gray-700">Precio:</label>
+        <input
+          type="number"
+          id="precio"
+          value={precio}
+          onChange={(e) => setPrecio(parseFloat(e.target.value))}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="grupoId" className="block text-gray-700">Grupo ID:</label>
+        <input
+          type="text"
+          id="grupoId"
+          value={grupo}
+          onChange={(e) => setGrupoId(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="fechaVencimiento" className="block text-gray-700">Fecha de Vencimiento:</label>
+        <input
+          type="date"
+          id="fechaVencimiento"
+          value={fechaVencimiento}
+          onChange={(e) => setFechaVencimiento(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          required
+        />
+      </div>
+      <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">Crear Gasto</button>
     </form>
   );
 };

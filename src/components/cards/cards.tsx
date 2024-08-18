@@ -1,56 +1,45 @@
-import React, { useEffect } from "react";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
-import { useGastos } from "../../context/GastoContext";
-import CreateExpenseForm from "./aaddGasto";
+// src/components/GastosList.tsx
+import React, { useEffect, useState } from 'react';
+import { useGastos } from '../../context/GastoContext'; // Ajusta la ruta según tu estructura
+import CrearGasto from './aaddGasto';
 
-const CardsComponent: React.FC = () => {
+interface Gasto {
+  id: string;
+  precio: number;
+  nombre: string;
+  fechaVencimiento: string;
+  grupo: {
+    _id: string;
+    nombre: string;
+  };
+}
+
+const GastosList: React.FC = () => {
   const { gastos, getGastos } = useGastos();
 
   useEffect(() => {
     getGastos();
   }, [getGastos]);
 
-  const imagenPredefinida = "https://tusfinanzas.ec/wp-content/uploads/2018/12/rastrear-gastos.jpg";
-
   return (
-    <div className="gap-10 flex flex-wrap justify-center">
-      {gastos.length === 0 ? (
-        <p>No hay gastos disponibles.</p>
+    <div className="bg-white p-5 rounded-md shadow-lg">
+      <h2 className="text-xl font-bold mb-4">Tus Gastos</h2>
+      {gastos.length > 0 ? (
+        <ul className="space-y-4">
+          {gastos.map((gasto) => (
+            <li key={gasto.id} className="p-4 bg-gray-100 rounded-md shadow-sm">
+              <p className="text-lg font-semibold">Monto: ${gasto.precio.toFixed(2)}</p>
+              <p className="text-gray-600">Descripción: {gasto.nombre}</p>
+              <p className="text-gray-500">Fecha: {new Date(gasto.fechaVencimiento).toLocaleDateString()}</p>
+            </li>
+          ))}
+        </ul>
       ) : (
-        gastos.map((gasto, index) => (
-          <Card
-            className="animate-swing-drop-in w-72 h-52 bg-[#181a32] border-2 border-purple-300 shadow-[0_0_1px_#fff,inset_0_0_1px_#fff,0_0_5px_#08f,0_0_5px_#08f,0_0_1px_#08f]"
-            style={{ animationDelay: `${index * 100}ms` }}
-            shadow="sm"
-            key={gasto._id}
-            isPressable
-            onPress={() => console.log(`Gasto ${gasto._id} presionado`)}
-          >
-            <CardBody className="overflow-visible p-0">
-              <Image
-                shadow="sm"
-                radius="lg"
-                width="100%"
-                alt={gasto.nombre}
-                className="w-full object-cover h-[150px]"
-                src={imagenPredefinida}
-              />
-            </CardBody>
-            <CardFooter className="text-small justify-between">
-              <b>{gasto.nombre}</b>
-              <p className="text-default-500">{gasto.precio}</p>
-            </CardFooter>
-            {gasto.grupo && (
-              <CardFooter className="text-small justify-between">
-                <b>{gasto.grupo.nombre}</b>
-              </CardFooter>
-            )}
-          </Card>
-        ))
+        <p>No tienes gastos registrados.</p>
       )}
-      <CreateExpenseForm />
+      
     </div>
   );
 };
 
-export default CardsComponent;
+export default GastosList;
