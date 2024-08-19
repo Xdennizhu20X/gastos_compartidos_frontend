@@ -1,13 +1,67 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <script type="text/javascript">
-      // Redirige al index.html con la ruta solicitada como hash
-      var pathname = window.location.pathname;
-      var newUrl = '/' + '#' + pathname;
-      window.location.replace(newUrl);
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+        <button onclick="redirectToHome()">Go to Home</button>
+    </div>
+
+    <script>
+        function redirectToHome() {
+            window.location.href = '/gastos_compartidos_frontend';
+        }
     </script>
-  </head>
-  <body>
-  </body>
+</body>
 </html>
