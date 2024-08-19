@@ -18,16 +18,16 @@ export default function Nosotros() {
         </Vortex>
       </div>
 
-      <div className="pt-20 bg-black flex flex-col items-center relative z-20 ">
-        <BackgroundGradient className="flex flex-col md:flex-row sm:p-6 bg-black rounded-[16px] p-4">
-          <div className="flex flex-row gap-10">
+      <div className="pt-20 px-10 bg-black flex flex-col items-center relative  z-20 ">
+        <BackgroundGradient className="flex flex-col  md:flex-row sm:p-6 bg-black rounded-[16px] p-4">
+          <div className="flex flex-wrap items-center  gap-10">
             <img
               className="rounded-t-lg w-[400px] h-auto mb-4 shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-xl"
               src="https://i.ibb.co/HgKjX5H/Captura-de-pantalla-2024-08-19-040734.png"
 
               alt="Imagen representativa"
             />
-            <p className="text-lg text-white mb-4 text-center max-w-3xl mt-10 px-2 py-4 rounded-lg">
+            <p className="text-2xl text-white mb-4 text-center sm:text-left max-w-3xl px-2 py-4 rounded-lg">
               Nuestra plataforma ofrece una solución integral para gestionar gastos
               compartidos. Desde la creación de grupos personalizados hasta la
               generación de reportes detallados, te proporcionamos todas las

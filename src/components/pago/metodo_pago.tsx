@@ -161,6 +161,7 @@ export default function Metodo_pago() {
                     >
                       <option value="">Seleccionar Banco</option>
                       <option value="loja">Loja</option>
+                      <option value="Pichincha">Pichincha</option>
                       {/* Agrega más opciones según sea necesario */}
                     </select>
                     <input

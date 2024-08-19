@@ -50,7 +50,7 @@ const GruposList: React.FC = () => {
 
   return (
     <div>
-      <div className="bg-black pt-20 w-full min-h-screen sm:justify-start justify-center items-center flex flex-col gap-3">
+      <div className="bg-black  pt-20 w-full min-h-screen sm:justify-start justify-center items-center flex flex-col gap-3">
         <div className="h-auto w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
           <h1 className="md:text-5xl text-5xl lg:text-8xl font-bold text-center text-white relative z-20">
             Grupos
@@ -90,8 +90,8 @@ const GruposList: React.FC = () => {
         <div className="w-full flex flex-wrap justify-center gap-4 mt-8">
           {grupos.length > 0 ? (
             grupos.map((grupo: Grupo) => (
-              <CardContainer key={grupo._id} className="z-30">
-                <CardBody className="bg-gray-50 group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-10 border">
+              <CardContainer key={grupo._id} className="z-30 bg-black">
+                <CardBody className="bg-black group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-10 border">
                   <CardItem
                     translateZ="50"
                     className="text-xl font-bold text-neutral-600 dark:text-white"
@@ -101,7 +101,7 @@ const GruposList: React.FC = () => {
 
                   <div className="my-5">
                     <p className="font-semibold text-white">Integrantes:</p>
-                    <ul className="list-disc list-inside pl-4 text-white">
+                    <ul className="list-disc list-inside pl-4 text-black dark:text-white">
                       {grupo.integrantes.map(user => (
                         <li key={user.id} className="text-white">{user.nombre}</li>
                       ))}

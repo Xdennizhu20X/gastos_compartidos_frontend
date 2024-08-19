@@ -34,15 +34,27 @@ export default function NavbarComponent() {
                 <NavbarBrand>
                 {isAuthenticated ? (
                     <>
+                    <Link to="/dashboard" className="flex flex-row items-center justify-center gap-1">
+                    
+                    <img src="https://i.ibb.co/bPN8RZB/2.png" alt=""  className="w-12 h-12" />
+                    DivvyUp
                     <Link className="font-bold text-inherit" color="foreground" to="/dashboard">
-                        DivvyUp
+
                     </Link>
+                    </Link>
+
                     </>
                 ) : (
                     <>
+
+                    <Link to="/" className="flex flex-row items-center justify-center gap-1">
+                    <img src="https://i.ibb.co/bPN8RZB/2.png" className="w-12 h-12" alt="" />
                     <Link className="font-bold text-inherit" color="foreground" to="/">
-                        DivvyUp
+                    
+                    DivvyUp
+                </Link>
                     </Link>
+
                     </>
                 )}
 

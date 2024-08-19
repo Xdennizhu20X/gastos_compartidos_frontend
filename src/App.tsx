@@ -30,6 +30,7 @@ function App() {
         <div className="overflo">
           <NavbarComponent />
           <Routes>
+          <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={<Navigate to="/inicio" />} />
             <Route path="/login" element={<Login />} />
             <Route path="/inicio" element={<Dashboard />} />

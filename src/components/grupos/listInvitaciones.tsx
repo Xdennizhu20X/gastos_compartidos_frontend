@@ -94,7 +94,7 @@ const MisInvitaciones: React.FC = () => {
 
   if (invitaciones.length === 0) {
     return (
-      <AuroraBackground className="w-full flex flex-col items-center">
+      <AuroraBackground className="w-full bg-black flex flex-col items-center">
         <p className="text-white text-lg font-semibold">
           <h1 className='text-8xl'>No tienes Invitaciones</h1>
         </p>
@@ -103,7 +103,7 @@ const MisInvitaciones: React.FC = () => {
   }
 
   return (
-    <AuroraBackground className="w-full min-h-screen flex flex-wrap pt-20 items-center p-6">
+    <AuroraBackground className="w-full min-h-screen flex flex-wrap pt-20 bg-black items-center p-6">
       <h2 className="text-5xl font-bold text-white mb-4">Mis Invitaciones</h2>
       <div className="w-[40rem] h-20 relative">
         {/* Gradientes */}
