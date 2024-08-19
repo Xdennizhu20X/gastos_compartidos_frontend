@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { useGrupos } from '../../context/GruposContext'; // Ajusta la ruta según tu estructura
-import { Label } from "../ui/label"; // Asegúrate de que el componente esté en la ruta correcta
-import { Input } from "../ui/input"; // Asegúrate de que el componente esté en la ruta correcta
-import { cn } from "../../lib/util"; // Asegúrate de que la función esté en la ruta correcta
-import { BackgroundBeams } from "../ui/background-beams"; // Asegúrate de que el componente esté en la ruta correcta
-// Asegúrate de que la ruta sea correcta
+import { useGrupos } from '../../context/GruposContext'; 
+import { Label } from "../ui/label"; 
+import { Input } from "../ui/input"; 
+import { cn } from "../../lib/util"; 
+import { AuroraBackground } from '../ui/aurora-background';
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+// Inicializar SweetAlert2 con React
+const MySwal = withReactContent(Swal);
 
 const CrearGrupo: React.FC = () => {
   const { createGrupo } = useGrupos();
@@ -19,15 +24,49 @@ const CrearGrupo: React.FC = () => {
       descripcion,
       presupuesto
     };
+
+    try {
       // @ts-ignore
-    await createGrupo(grupo);
-    setNombre('');
-    setDescripcion('');
-    setPresupuesto(undefined);
+      await createGrupo(grupo);
+
+      // Mostrar alerta de éxito
+      MySwal.fire({
+        title: '¡Grupo creado con éxito!',
+        text: `El grupo "${nombre}" ha sido creado.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+
+      // Limpiar los campos después de crear el grupo
+      setNombre('');
+      setDescripcion('');
+      setPresupuesto(undefined);
+    } catch (error) {
+      // Manejar errores, si es necesario
+      console.error("Error creando el grupo:", error);
+      MySwal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al crear el grupo. Por favor, inténtalo de nuevo.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen relative w-full overflow-hidden z-0 bg-slate-900 flex flex-col items-center justify-center">
+    <AuroraBackground className="min-h-screen relative w-full overflow-hidden z-0 bg-black flex flex-col items-center justify-center">
+      <div className="fixed top-20 left-4 z-50">
+        <Link 
+          to="/groups" 
+          className="flex items-center text-white bg-gray-700 hover:bg-gray-900 transition duration-200 px-4 py-2 rounded-lg text-sm font-medium shadow-md"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 mr-2 fill-white">
+            <title>arrow-left</title>
+            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+          </svg>
+          Volver
+        </Link>
+      </div>
       <div className="max-w-md z-30 sm:w-full w-[90%] mx-auto absolute rounded-none md:rounded-2xl mt-10 p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Crear Nuevo Grupo
@@ -56,17 +95,6 @@ const CrearGrupo: React.FC = () => {
                 className="border border-gray-300 p-2 rounded"
               />
             </LabelInputContainer>
-            <LabelInputContainer>
-              <Label htmlFor="presupuesto">Presupuesto</Label>
-              <Input
-                type="number"
-                id="presupuesto"
-                value={presupuesto ?? ''}
-                onChange={(e) => setPresupuesto(Number(e.target.value))}
-                placeholder="Ingresa el presupuesto"
-                className="border border-gray-300 p-2 rounded"
-              />
-            </LabelInputContainer>
           </div>
           <button
             type="submit"
@@ -76,8 +104,7 @@ const CrearGrupo: React.FC = () => {
           </button>
         </form>
       </div>
-      <BackgroundBeams />
-    </div>
+    </AuroraBackground>
   );
 };
 
@@ -95,4 +122,4 @@ const LabelInputContainer = ({
   );
 };
 
-export default CrearGrupo;  
+export default CrearGrupo;

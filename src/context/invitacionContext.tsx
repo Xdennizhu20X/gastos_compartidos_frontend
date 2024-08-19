@@ -1,13 +1,18 @@
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import axios from '../api/axios'; // Ajusta la ruta según tu estructura
 
+interface Grupo {
+  _id: string;
+  nombre: string;
+}
+
 interface Invitacion {
-  _id: string; // Correspondiente al ObjectId generado por MongoDB
-  usuario: string; // ID del usuario como ObjectId en formato string
-  grupo: string; // ID del grupo como ObjectId en formato string
-  estado: 'pendiente' | 'aceptada' | 'rechazada'; // Estado de la invitación
-  fechaEnvio: Date; // Fecha de envío de la invitación
-  fechaRespuesta?: Date; // Fecha de respuesta a la invitación, opcional
+  _id: string;
+  usuario: string;
+  grupo: Grupo; // Change this from string to Grupo
+  estado: 'pendiente' | 'aceptada' | 'rechazada';
+  fechaEnvio: Date;
+  fechaRespuesta?: Date;
 }
 
 interface InvitacionContextType {

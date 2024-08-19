@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy" :"gh-pages -d dist"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@midudev/tailwind-animations": "^0.0.7",
@@ -34,6 +34,8 @@
     "react-router-dom": "^6.26.0",
     "react-use": "^17.5.1",
     "simplex-noise": "^4.0.3",
+    "sweetalert2": "^11.12.4",
+    "sweetalert2-react-content": "^5.0.7",
     "tailwind-merge": "^2.5.2",
     "three": "^0.167.1",
     "uvcanvas": "^0.2.1"

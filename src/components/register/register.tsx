@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -24,6 +25,8 @@ const Register: React.FC = () => {
   });
 
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const validateEmail = (value: string) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -49,8 +52,11 @@ const Register: React.FC = () => {
       return;
     }
     try {
-      const message = await register(formData);
-      console.log('Usuario registrado:', message);
+      await register(formData);
+      setAlertMessage('Usuario registrado satisfactoriamente');
+      setTimeout(() => {
+        navigate('/login'); // Redirect to login after showing the alert
+      }, 3000); // Adjust the delay as needed
     } catch (error) {
       console.error('Error en el registro:', error);
     }
@@ -65,7 +71,7 @@ const Register: React.FC = () => {
       <div className="absolute inset-0 w-full h-full bg-transparent/10 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <div className="max-w-md sm:w-full w-[90%] mx-auto absolute rounded-none md:rounded-2xl mt-10 p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-          Welcome to Divvyup
+          Bienvenido a Divvyup
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
           Registrate para que puedas Acceder a nuestro sitio
@@ -74,7 +80,7 @@ const Register: React.FC = () => {
         <form className="my-8" onSubmit={handleSubmit}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
             <LabelInputContainer>
-              <Label htmlFor="firstname">First name</Label>
+              <Label htmlFor="firstname">Nombre:</Label>
               <Input
                 name="nombre"
                 value={formData.nombre}
@@ -86,7 +92,7 @@ const Register: React.FC = () => {
             </LabelInputContainer>
           </div>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="email">Email Address</Label>
+            <Label htmlFor="email">Correo:</Label>
             <Input
               name="email"
               value={formData.email}
@@ -97,7 +103,7 @@ const Register: React.FC = () => {
             />
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Contraseña:</Label>
             <div className="relative inline-block">
               <Input
                 name="contrasena"
@@ -131,6 +137,13 @@ const Register: React.FC = () => {
           </button>
 
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
+          {/* Alert message */}
+          {alertMessage && (
+            <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-md">
+              {alertMessage}
+            </div>
+          )}
         </form>
       </div>
     </AuroraBackground>

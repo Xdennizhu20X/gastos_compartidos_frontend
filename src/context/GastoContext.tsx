@@ -8,6 +8,7 @@ interface Gasto {
   fechaVencimiento: string;
   usuarioId: string;
   grupoId: string;
+
 }
 
 interface NuevoGasto {

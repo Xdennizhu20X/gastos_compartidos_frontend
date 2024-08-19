@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from '../../api/axios';
 import { BackgroundGradient } from "../ui/background-gradient";
 import { Vortex } from "../ui/vortex";
+import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function Metodo_pago() {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [amount, setAmount] = useState('');
+  const [reason, setReason] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardHolderName, setCardHolderName] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
+  const [securityCode, setSecurityCode] = useState('');
+  const [email, setEmail] = useState('');
+ 
+
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const transaccionId = query.get('transaccionId') || '';
+  const userId = query.get('usuarioId') || '';
+  const amountQuery = query.get('amount') || '';
+
+  useEffect(() => {
+    if (amountQuery) {
+      setAmount(amountQuery); // Establece el monto desde la URL
+    }
+  }, [amountQuery]);
 
   const handlePaymentMethodChange = (value: string) => {
     setPaymentMethod(value);
@@ -14,23 +38,82 @@ export default function Metodo_pago() {
     setSelectedBank(event.target.value);
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  
+    const paymentData = {
+      method: paymentMethod,
+      bank: selectedBank,
+      accountNumber,
+      amount: parseFloat(amount),
+      reason,
+      cardNumber,
+      cardHolderName,
+      expirationDate,
+      securityCode,
+      userId,
+      transaccionId,
+      email
+    };
+  
+    try {
+      const response = await axios.post('/pagos', paymentData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 201) {
+        const { pagoId } = response.data; // Asegúrate de que esto coincide con la respuesta del servidor
+  
+        if (pagoId) {
+          const result = await Swal.fire({
+            title: 'Pago creado exitosamente',
+            text: '¿Deseas completar el pago?',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+          });
+  
+          if (result.isConfirmed) {
+            try {
+              await axios.post(`/pagos/${pagoId}/completar`);
+              Swal.fire('Pago completado', 'Tu pago ha sido completado exitosamente.', 'success');
+            } catch (err) {
+              console.error('Error al completar el pago:', err);
+              Swal.fire('Error', 'Hubo un problema al completar el pago.', 'error');
+            }
+          } else {
+            Swal.fire('Cancelado', 'El pago no fue completado.', 'info');
+          }
+        } else {
+          console.error('ID del pago no disponible');
+          Swal.fire('Error', 'No se pudo obtener el ID del pago.', 'error');
+        }
+      } else {
+        Swal.fire('Error', 'Error al crear el pago.', 'error');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      Swal.fire('Error', 'Hubo un error al realizar el pago.', 'error');
+    }
+  };
+
   return (
     <div>
-      <div className="h-[300px] w-full flex items-center justify-center relative z-10">
+      <div className="min-h-screen w-full flex items-center justify-center relative z-10">
         <Vortex
           backgroundColor="black"
           rangeY={800}
           particleCount={500}
           baseHue={920}
-          className="w-full h-full flex items-center justify-center overflow-hidden"
+          className="w-full h-full flex flex-col items-center justify-center overflow-hidden"
         >
           <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
             Formulario de Pago
           </h2>
-        </Vortex>
-      </div>
-
-      <div className="pt-20 bg-black flex flex-col items-center relative z-20">
+          <div className="pt-20 bg-transparent flex flex-col items-center relative z-20">
         <BackgroundGradient className="flex flex-col bg-black rounded-[16px] p-4 sm:p-6">
           <div className="flex flex-col items-center">
             <h3 className="text-white text-2xl font-bold mb-6">Método de Pago</h3>
@@ -38,106 +121,115 @@ export default function Metodo_pago() {
             <div className="flex mb-6 border-b border-gray-700 space-x-4">
               <button
                 onClick={() => handlePaymentMethodChange('transfer')}
-                className={`py-2 px-4 rounded-t-lg ${paymentMethod === 'transfer' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-gray-400'} hover:bg-blue-600 transition duration-200`}
+                className={`py-2 px-4 rounded-t-lg ${paymentMethod === 'transfer' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-gray-400'}`}
               >
-                Transferencia Bancaria
+                Transferencia
               </button>
               <button
-                onClick={() => handlePaymentMethodChange('creditCard')}
-                className={`py-2 px-4 rounded-t-lg ${paymentMethod === 'creditCard' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-gray-400'} hover:bg-blue-600 transition duration-200`}
+                onClick={() => handlePaymentMethodChange('card')}
+                className={`py-2 px-4 rounded-t-lg ${paymentMethod === 'card' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-gray-400'}`}
               >
-                Tarjeta de Crédito/Débito
+                Tarjeta de Crédito
               </button>
             </div>
 
-            <form className="w-full max-w-lg">
+            <form onSubmit={handleSubmit} className="w-full max-w-md">
+              <div className="mb-6 text-white text-lg font-semibold">
+                {amount && (
+                  <div className="mb-4">
+                    <h4 className="text-xl">Monto a Pagar:</h4>
+                    <p className="text-lg font-bold">${amount}</p>
+                  </div>
+                )}
+              </div>
+
+              <input
+                type="email"
+                placeholder="Correo Electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="block p-3 rounded-md border border-gray-300 w-full mb-4"
+              />
+
               {paymentMethod === 'transfer' && (
-                <div className="mb-6">
-                  <h4 className="text-white text-lg font-semibold">Detalles de Transferencia</h4>
-                  <div className="flex flex-col space-y-4 mt-2">
+                <div>
+                  <div className="flex flex-col space-y-4">
                     <select
                       value={selectedBank}
                       onChange={handleBankChange}
-                      className="block p-3 rounded-md border border-gray-300 w-full bg-white text-black"
+                      className="block p-3 rounded-md border border-gray-300 w-full"
                     >
-                      <option value="" disabled>Seleccionar Banco</option>
-                      <option value="pichincha">Banco Pichincha</option>
-                      <option value="loja">Banco de Loja</option>
+                      <option value="">Seleccionar Banco</option>
+                      <option value="loja">Loja</option>
+                      {/* Agrega más opciones según sea necesario */}
                     </select>
                     <input
                       type="text"
                       placeholder="Número de Cuenta"
-                      className="block p-3 rounded-md border border-gray-300 w-full"
-                    />
-                    <input
-                      type="number"
-                      placeholder="Monto"
+                      value={accountNumber}
+                      onChange={(e) => setAccountNumber(e.target.value)}
                       className="block p-3 rounded-md border border-gray-300 w-full"
                     />
                     <input
                       type="text"
                       placeholder="Motivo"
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
                       className="block p-3 rounded-md border border-gray-300 w-full"
                     />
                   </div>
                 </div>
               )}
 
-              {paymentMethod === 'creditCard' && (
-                <div className="mb-6">
-                  <h4 className="text-white text-lg font-semibold">Detalles de Tarjeta</h4>
-
-                  {/* Logos de las tarjetas de crédito */}
-                  <div className="flex space-x-4 mt-4 mb-4 justify-center">
-                    <img src="https://1000marcas.net/wp-content/uploads/2019/12/Visa-Logo-2005.jpg" alt="Visa" className="h-10" />
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpT3-GMtjwNqXKLubqTfOUqh64jZwooTsxxw&s" alt="MasterCard" className="h-10" />
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9h_lvBnm4UQvLK2jkqQDhs788I6JCL0XcPg&s" alt="PayPal" className="h-10" />
-                  </div>
-
-                  <div className="flex flex-col space-y-4 mt-2">
+              {paymentMethod === 'card' && (
+                <div>
+                  <div className="flex flex-col space-y-4">
                     <input
                       type="text"
                       placeholder="Número de Tarjeta"
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value)}
                       className="block p-3 rounded-md border border-gray-300 w-full"
                     />
-                    <div className="flex justify-between space-x-4">
-                      <input
-                        type="text"
-                        placeholder="Nombre del Titular"
-                        className="block p-3 rounded-md border border-gray-300 w-[48%]"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Fecha de Expiración"
-                        className="block p-3 rounded-md border border-gray-300 w-[48%]"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      placeholder="Nombre del Titular"
+                      value={cardHolderName}
+                      onChange={(e) => setCardHolderName(e.target.value)}
+                      className="block p-3 rounded-md border border-gray-300 w-full"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Fecha de Expiración (MM/AA)"
+                      value={expirationDate}
+                      onChange={(e) => setExpirationDate(e.target.value)}
+                      className="block p-3 rounded-md border border-gray-300 w-full"
+                    />
                     <input
                       type="text"
                       placeholder="Código de Seguridad"
+                      value={securityCode}
+                      onChange={(e) => setSecurityCode(e.target.value)}
                       className="block p-3 rounded-md border border-gray-300 w-full"
                     />
                   </div>
                 </div>
               )}
 
-              {/* Mostrar el botón solo si se ha seleccionado un método de pago */}
-              {paymentMethod && (
-                <div className="flex justify-center mt-6">
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition duration-200"
-                  >
-                    Enviar Pago
-                  </button>
-                </div>
-              )}
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition duration-200"
+              >
+                Realizar Pago
+              </button>
             </form>
           </div>
         </BackgroundGradient>
-
-        <div className="h-16" /> {/* Espacio adicional */}
       </div>
+        </Vortex>
+      </div>
+
+      
     </div>
   );
 }

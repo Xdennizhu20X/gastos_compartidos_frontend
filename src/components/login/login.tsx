@@ -43,7 +43,7 @@ const LoginPage: React.FC = () => {
         </h2>
         <form className="my-8" onSubmit={handleSubmit}>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="email">Email Address</Label>
+            <Label htmlFor="email">Correo:</Label>
             <Input
               name="email"
               value={email}
@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
             />
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Contraseña:</Label>
             <div className="relative inline-block">
               <Input
                 name="contrasena"

@@ -4,6 +4,7 @@ import api from '../api/axios'; // Ajusta la ruta según tu estructura
 interface TransaccionesContextType {
   transacciones: Transaccion[];
   getTransacciones: () => Promise<void>;
+  usuarioId: string | null; // Asegúrate de agregar el campo usuarioId
 }
 
 interface Transaccion {
@@ -12,6 +13,7 @@ interface Transaccion {
   fecha: string;
   estado: string;
 }
+
 interface DecodedToken {
   id: string;
   // otros campos que pueda tener tu token decodificado
@@ -21,6 +23,7 @@ const TransaccionesContext = createContext<TransaccionesContextType | undefined>
 
 export const TransaccionesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [transacciones, setTransacciones] = useState<Transaccion[]>([]);
+  const [usuarioId, setUsuarioId] = useState<string | null>(null);
 
   const getTransacciones = useCallback(async () => {
     const token = localStorage.getItem('token');
@@ -28,6 +31,7 @@ export const TransaccionesProvider: React.FC<{ children: ReactNode }> = ({ child
       try {
         const decodedToken = decodeToken(token);
         const userId = decodedToken.id;
+        setUsuarioId(userId); // Guardar el usuarioId en el estado
 
         const response = await api.post(`/transaccion/user/${userId}`);
         console.log('Transacciones obtenidas:', response.data); // Añadido para depuración
@@ -49,7 +53,7 @@ export const TransaccionesProvider: React.FC<{ children: ReactNode }> = ({ child
   };
 
   return (
-    <TransaccionesContext.Provider value={{ transacciones, getTransacciones }}>
+    <TransaccionesContext.Provider value={{ transacciones, getTransacciones, usuarioId }}>
       {children}
     </TransaccionesContext.Provider>
   );

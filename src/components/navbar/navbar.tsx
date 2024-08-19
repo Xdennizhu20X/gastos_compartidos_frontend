@@ -7,18 +7,21 @@ import { useAuth } from "../../context/AuthContext";
 export default function NavbarComponent() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const { isAuthenticated, logout } = useAuth();
+    const menuItemsAUt = [
+            { name: "Dashboard", path: "/dashboard" },
+            { name: "Grupos", path: "/groups" },
+            { name: "Gastos", path: "/gastos" },
+            { name: "Transacciones", path: "/trans" },
+            { name: "Invitaciones", path: "/misinv" },
+            { name: "Log Out", path: "/", onClick: logout }
+        ];
 
     const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Analytics",
-        "System",
-        "Deployments",
-        "My Settings",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
+        { name: "Inicio", path: "/" },
+        { name: "Nosotros", path: "/nosotros" },
+        { name: "Iniciar Sesion", path: "/login" },
+        { name: "Registrarse", path: "/register" },
+
     ];
 
     return (
@@ -58,13 +61,18 @@ export default function NavbarComponent() {
                             </Link>
                         </NavbarItem>
                         <NavbarItem isActive>
-                            <Link to="/dashboard" aria-current="page">
+                            <Link to="/gastos" aria-current="page">
                                 Gastos
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
                             <Link color="foreground" to="/trans">
                                 Transacciones
+                            </Link>
+                        </NavbarItem>
+                        <NavbarItem isActive>
+                            <Link to="/misinv" aria-current="page">
+                                Invitaciones
                             </Link>
                         </NavbarItem>
                     </>
@@ -75,11 +83,7 @@ export default function NavbarComponent() {
                                 Inicio
                             </Link>
                         </NavbarItem>
-                        <NavbarItem isActive>
-                            <Link to="#" aria-current="page">
-                                Gastos
-                            </Link>
-                        </NavbarItem>
+
                         <NavbarItem>
                             <Link color="foreground" to="/nosotros">
                                 Nosotros
@@ -113,6 +117,25 @@ export default function NavbarComponent() {
 
             </NavbarContent>
             <NavbarMenu className="bg-transparent">
+            {isAuthenticated ? (
+                    <>
+                {menuItemsAUt.map((item, index) => (
+                    <NavbarMenuItem className={`bg-white/5 p-2 rounded-lg  text-white animate-fade-in-right`}
+                        style={{ animationDelay: `${index * 100}ms` }} key={`${item}-${index}`}>
+                        <Link
+                            color={
+                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                            }
+                            className="w-full"
+                            to={item.path}
+                        >
+                            {item.name}
+                        </Link>
+                    </NavbarMenuItem>
+                ))}
+                    </>
+                ) : (
+                    <>
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem className={`bg-white/5 p-2 rounded-lg  text-white animate-fade-in-right`}
                         style={{ animationDelay: `${index * 100}ms` }} key={`${item}-${index}`}>
@@ -121,12 +144,15 @@ export default function NavbarComponent() {
                                 index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
                             }
                             className="w-full"
-                            to="#"
+                            to={item.path}
                         >
-                            {item}
+                            {item.name}
                         </Link>
                     </NavbarMenuItem>
                 ))}
+                    </>
+                )}
+
             </NavbarMenu>
         </Navbar>
     );

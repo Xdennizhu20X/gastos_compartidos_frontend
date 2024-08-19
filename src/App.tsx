@@ -20,6 +20,7 @@ import GruposList from "./components/grupos/listgroups";
 import MisInvitaciones from "./components/grupos/listInvitaciones";
 import AddGastoForm from "./components/cards/aaddGasto";
 import Metodo_pago from "./components/pago/metodo_pago";
+import ListarGastos from "./components/cards/listarGasto";
 
 
 function App() {
@@ -41,12 +42,13 @@ function App() {
               }
             />
             <Route path="/nosotros" element={<Nosotros />} />
-            <Route path="/metodo_pago" element={<Metodo_pago />} />
+            <Route path="/metodo_pago" element={<ProtectedRoute><Metodo_pago /></ProtectedRoute>} />
             <Route path="/user" element={<ProtectedRoute><UserDetailsPage /></ProtectedRoute>} />
             <Route path="/trans" element={<ProtectedRoute><Transacciones /></ProtectedRoute>} />
             <Route path="/creategroups" element={<ProtectedRoute><CrearGrupo/></ProtectedRoute>} />
             <Route path="/groups" element={<ProtectedRoute><GruposList/></ProtectedRoute>} />
             <Route path="/misinv" element={<ProtectedRoute><MisInvitaciones/></ProtectedRoute>} />
+            <Route path="/gastos" element={<ProtectedRoute><ListarGastos/></ProtectedRoute>} />
             <Route path="/creargasto" element={<ProtectedRoute><AddGastoForm/></ProtectedRoute>} />
             <Route path="/register" element={<Register />} />
           </Routes>

@@ -14,10 +14,10 @@ export default function Dashboard() {
         baseHue={920}
         className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-screen overflow-y-hidden overflow-x-hidden "
       >
-        <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
+        <h2 className="text-white text-5xl md:text-6xl font-bold text-center">
           Gestiona Tus Gastos Compartidos
         </h2>
-        <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
+        <p className="text-white text-xl md:text-2xl max-w-xl mt-6 text-center">
           Divide y controla tus finanzas con total facilidad.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
@@ -37,29 +37,30 @@ export default function Dashboard() {
         </h2>
 
         {/* Tarjetas */}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-5 sm:grid-cols-1 justify-center  pb-20 ">
-          <div className="max-w-sm">
-            <BackgroundGradient className="rounded-[22px] p-4 sm:p-10 bg-white dark:bg-zinc-900">
+        <div className="flex flex-wrap gap-10 justify-center items-center  pb-20 ">
+          <div className="sm:w-96 w-[90%] flex flex-col justify-center items-center text-center">
+            <BackgroundGradient className="rounded-[22px] flex flex-col items-center p-4 sm:p-10 bg-white dark:bg-zinc-900">
               <Image
-                src="https://dti.anahuacmayab.mx/wp-content/uploads/2022/08/54950-min-2050x2050.jpg"
                 isZoomed
-                alt="NextUI Fruit Image with Zoom" 
+                alt="NextUI Fruit Image with Zoom"
                 width={270}
                 height={180}
-                className="object-contain"
+                src="https://dti.anahuacmayab.mx/wp-content/uploads/2022/08/54950-min-2050x2050.jpg"
+
+                className=" hover:scale-110 transition duration-500 w-full h-20 object-"
               />
               <p className="font-bold text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
                 Regístrate y Crea un Grupo
               </p>
 
               <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Empieza creando un nuevo grupo de gastos y agrega a los miembros.
+                Empieza creando un nuevo grupo de gastos y agrega a los miembros.
               </p>
-            
+
             </BackgroundGradient>
           </div>
-          <div className="max-w-sm">
-            <BackgroundGradient className="rounded-[22px]  p-4 sm:p-10 bg-white dark:bg-zinc-900">
+          <div className="sm:w-96 w-[90%] flex flex-col justify-center items-center text-center">
+            <BackgroundGradient className="rounded-[22px] flex flex-col items-center p-4 sm:p-10 bg-white dark:bg-zinc-900">
               <Image
                 src="https://tusfinanzas.ec/wp-content/uploads/2018/12/rastrear-gastos.jpg"
                 isZoomed
@@ -76,29 +77,29 @@ export default function Dashboard() {
                 Registra los gastos y asigna los montos a los miembros del grupo.
 
               </p>
-              
+
             </BackgroundGradient>
           </div>
-          <div className="max-w-sm ">
-            <BackgroundGradient className="rounded-[22px] p-4 sm:p-10 bg-white dark:bg-zinc-900">
+          <div className="sm:w-96 w-[90%] flex flex-col justify-center items-center text-center">
+            <BackgroundGradient className="rounded-[22px] flex flex-col items-center p-4 sm:p-10 bg-white dark:bg-zinc-900">
               <Image
                 src="https://img.freepik.com/vector-gratis/empleados-departamento-finanzas-estan-calculando-gastos-negocio-empresa_1150-41782.jpg"
                 isZoomed
                 alt="NextUI Fruit Image with Zoom"
                 width={270}
                 height={180}
-                className="object-contain"
+                className="object-contain mx-auto"
               />
               <p className="font-bold text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
                 Divide y Consulta
               </p>
 
               <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Divide los gastos de manera justa y consulta los reportes para ver
-              el estado actual.
+                Divide los gastos de manera justa y consulta los reportes para ver
+                el estado actual.
 
               </p>
-              
+
             </BackgroundGradient>
           </div>
         </div>

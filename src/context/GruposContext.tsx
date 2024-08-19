@@ -7,6 +7,7 @@ interface GruposContextType {
   getGrupos: () => Promise<void>;
   createGrupo: (grupo: Omit<Grupo, 'id'>) => Promise<void>;
   sendInvitation: (email: string, grupoId: string) => Promise<void>;
+  deleteGrupo: (grupoId: string) => Promise<void>; // Añadir esta línea
   userId: string | null;
 }
 
@@ -103,6 +104,21 @@ export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
   }, []);
 
+  const deleteGrupo = useCallback(async (grupoId: string) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const response = await api.post(`/grupos/delete/${grupoId}`);
+        console.log('Grupo eliminado:', response.data);
+
+        // Actualiza el estado para eliminar el grupo
+        setGrupos(prevGrupos => prevGrupos.filter(grupo => grupo._id !== grupoId));
+      } catch (error) {
+        console.error('Error al eliminar el grupo:', error);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     getGrupos();
   }, [getGrupos]);
@@ -120,7 +136,7 @@ export const GruposProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   return (
-    <GruposContext.Provider value={{ grupos, getGrupos, createGrupo, sendInvitation, userId }}>
+    <GruposContext.Provider value={{ grupos, getGrupos, createGrupo, sendInvitation, deleteGrupo, userId }}>
       {children}
     </GruposContext.Provider>
   );
